@@ -1,0 +1,12 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.Tests.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.Tests.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\nunit.framework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\Rhino.Mocks.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\nunit.framework.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\bin\Debug\Rhino.Mocks.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\obj\Debug\AclEngine-Tests.csprojResolveAssemblyReference.cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\obj\Debug\ScrewTurn.Wiki.AclEngine.Tests.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine-Tests\obj\Debug\ScrewTurn.Wiki.AclEngine.Tests.pdb

@@ -1,0 +1,403 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ActiveDirectoryProvider</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider">
+            <summary>
+            Implements a Users Storage Provider for Active Directory.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.GetDomain">
+            <summary>
+            Gets the domain specified by the config or else the computer domain.
+            </summary>
+            <returns>The Domain object.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.GetDomain(System.String,System.String)">
+            <summary>
+            Gets the domain specified by the config or else the computer domain using the given credentials (if any).
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <returns>The Domain object.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.ValidateCredentials(System.String,System.String)">
+            <summary>
+            Determine if the given user credentials are valid.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <returns><c>true</c> if credentials are valid otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.GetWikiGroups(System.Collections.Generic.List{System.String})">
+            <summary>
+            Get the wiki groups for the given domain groups, if any.
+            </summary>
+            <param name="domainGroups">The domain groups.</param>
+            <returns>The list of wiki groups.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.GetGroupMap(System.String)">
+            <summary>
+            Get the wiki groups for the given domain group, if any.
+            </summary>
+            <param name="domainGroup">The domain group.</param>
+            <returns>The array of string containing the wiki groups.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.AddGroupMap(System.String,System.String[])">
+            <summary>
+            Adds the given group map.
+            </summary>
+            <param name="domainGroup">The domain group.</param>
+            <param name="wikiGroups">The wiki groups.</param>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.IsGroupMapSet">
+            <summary>
+            Returns true if the group map contains at least one entry.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is group map set; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.CommonKey">
+            <summary>
+            Groups that are common to all users, regardless of their domain group membership.
+            </summary>
+            <value>The common groups.</value>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Config.DefaultKey">
+            <summary>
+            Groups that are used when a user has no other group membership.
+            </summary>
+            <value>The default groups.</value>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.TestAccount(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String)">
+            <summary>
+            Tests a Password for a User account.
+            </summary>
+            <param name="user">The User account.</param>
+            <param name="password">The Password to test.</param>
+            <returns>True if the Password is correct.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="password"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GetUsers">
+            <summary>
+            Gets the complete list of Users.
+            </summary>
+            <returns>All the Users, sorted by username.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.AddUser(System.String,System.String,System.String,System.String,System.Boolean,System.DateTime)">
+            <summary>
+            Adds a new User.
+            </summary>
+            <param name="username">The Username.</param>
+            <param name="displayName">The display name (can be <c>null</c>).</param>
+            <param name="password">The Password.</param>
+            <param name="email">The Email address.</param>
+            <param name="active">A value indicating whether the account is active.</param>
+            <param name="dateTime">The Account creation Date/Time.</param>
+            <returns>
+            The correct <see cref="T:UserInfo"/> object or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/>, <paramref name="password"/> or <paramref name="email"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/>, <paramref name="password"/> or <paramref name="email"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.ModifyUser(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Modifies a User.
+            </summary>
+            <param name="user">The Username of the user to modify.</param>
+            <param name="newDisplayName">The new display name (can be <c>null</c>).</param>
+            <param name="newPassword">The new Password (<c>null</c> or blank to keep the current password).</param>
+            <param name="newEmail">The new Email address.</param>
+            <param name="newActive">A value indicating whether the account is active.</param>
+            <returns>
+            The correct <see cref="T:UserInfo"/> object or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="newEmail"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="newEmail"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.RemoveUser(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Removes a User.
+            </summary>
+            <param name="user">The User to remove.</param>
+            <returns>
+            True if the User has been removed successfully.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GetUserGroups">
+            <summary>
+            Gets all the user groups.
+            </summary>
+            <returns>All the groups, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.AddUserGroup(System.String,System.String)">
+            <summary>
+            Adds a new user group.
+            </summary>
+            <param name="name">The name of the group.</param>
+            <param name="description">The description of the group.</param>
+            <returns>
+            The correct <see cref="T:UserGroup"/> object or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="description"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.ModifyUserGroup(ScrewTurn.Wiki.PluginFramework.UserGroup,System.String)">
+            <summary>
+            Modifies a user group.
+            </summary>
+            <param name="group">The group to modify.</param>
+            <param name="description">The new description of the group.</param>
+            <returns>
+            The correct <see cref="T:UserGroup"/> object or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="group"/> or <paramref name="description"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.RemoveUserGroup(ScrewTurn.Wiki.PluginFramework.UserGroup)">
+            <summary>
+            Removes a user group.
+            </summary>
+            <param name="group">The group to remove.</param>
+            <returns>
+            	<c>true</c> if the group is removed, <c>false</c> otherwise.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="group"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.SetUserMembership(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String[])">
+            <summary>
+            Sets the group memberships of a user account.
+            </summary>
+            <param name="user">The user account.</param>
+            <param name="groups">The groups the user account is member of.</param>
+            <returns>
+            The correct <see cref="T:UserGroup"/> object or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="groups"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.TryManualLogin(System.String,System.String)">
+            <summary>
+            Tries to login a user directly through the provider.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <returns>
+            The correct UserInfo object, or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/> or <paramref name="password"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.TryAutoLogin(System.Web.HttpContext)">
+            <summary>
+            Tries to login a user directly through the provider using
+            the current HttpContext and without username/password.
+            </summary>
+            <param name="context">The current HttpContext.</param>
+            <returns>
+            The correct UserInfo object, or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="context"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.CreatePrimaryGroupSID(System.Byte[],System.Int32)">
+            <summary>
+            Creates the primary group SID.
+            http://dunnry.com/blog/DeterminingYourPrimaryGroupInActiveDirectoryUsingNET.aspx
+            </summary>
+            <param name="userSid">The user sid.</param>
+            <param name="primaryGroupID">The primary group ID.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.BuildOctetString(System.Byte[])">
+            <summary>
+            Builds the octet string.
+            http://dunnry.com/blog/DeterminingYourPrimaryGroupInActiveDirectoryUsingNET.aspx
+            </summary>
+            <param name="bytes">The bytes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GetUser(System.String)">
+            <summary>
+            Gets the user info object for the currently logged in user.
+            </summary>
+            <param name="username">The username.</param>
+            <returns>
+            The <see cref="T:UserInfo"/>, or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GeneratePassword">
+            <summary>
+            Generate a random password of garbage since a non-zero length password is required
+            </summary>
+            <returns>The random password.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GetUserByEmail(System.String)">
+            <summary>
+            Gets a user account.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="email">The email address.</param>
+            <returns>
+            The first user found with the specified email address, or <c>null</c>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="email"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="email"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.NotifyCookieLogin(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Notifies the provider that a user has logged in through the authentication cookie.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="user">The user who has logged in.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.NotifyLogout(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Notifies the provider that a user has logged out.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="user">The user who has logged out.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.StoreUserData(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String,System.String)">
+            <summary>
+            Stores a user data element, overwriting the previous one if present.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="user">The user the data belongs to.</param>
+            <param name="key">The key of the data element (case insensitive).</param>
+            <param name="value">The value of the data element, <c>null</c> for deleting the data.</param>
+            <returns>
+            	<c>true</c> if the data element is stored, <c>false</c> otherwise.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="key"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.RetrieveUserData(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String)">
+            <summary>
+            Gets a user data element, if any.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="user">The user the data belongs to.</param>
+            <param name="key">The key of the data element.</param>
+            <returns>
+            The value of the data element, or <c>null</c> if the element is not found.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="key"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.RetrieveAllUserData(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Retrieves all the user data elements for a user.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="user">The user.</param>
+            <returns>The user data elements (key-&gt;value).</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GetUsersWithData(System.String)">
+            <summary>
+            Gets all the users that have the specified element in their data.
+            Not Implemented - Passed Directly to the IUsersStorageProviderV40
+            </summary>
+            <param name="key">The key of the data.</param>
+            <returns>The users and the data.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="key"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.UserAccountsReadOnly">
+            <summary>
+            Gets a value indicating whether user accounts are read-only.
+            </summary>
+            <value>True, always, we can't write back to AD</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.UserGroupsReadOnly">
+            <summary>
+            Gets a value indicating whether user groups are read-only. If so, the provider
+            should support default user groups as defined in the wiki configuration.
+            </summary>
+            <value>True, always, we can't write back to AD</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.GroupMembershipReadOnly">
+            <summary>
+            Gets a value indicating whether group membership is read-only (if <see cref="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.UserAccountsReadOnly"/>
+            is <c>false</c>, then this property must be <c>false</c>). If this property is <c>true</c>, the provider
+            should return membership data compatible with default user groups.
+            </summary>
+            <value>True, always, we can't write back to AD</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.UsersDataReadOnly">
+            <summary>
+            Gets a value indicating whether users' data is read-only.
+            </summary>
+            <value>True, always, we can't write back to AD</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.StorageProvider">
+            <summary>
+            Returns the storage provider.
+            The storage provider is identified the first time it is needed, rather than at init.
+            This avoids a dependency on the storage provider being loaded first, which is not guaranteed
+            </summary>
+            <value>The storage provider.</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+            <value>The information</value>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.LogEntry(ScrewTurn.Wiki.PluginFramework.LogEntryType,System.String,System.Object[])">
+            <summary>
+            Logs a message from this plugin.
+            </summary>
+            <param name="entryType">Type of the entry.</param>
+            <param name="message">The message.</param>
+            <param name="args">The args.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.InitConfig(System.String)">
+            <summary>
+            Configures the plugin based on the configuration settings.
+            </summary>
+            <param name="config">The config.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.ActiveDirectory.ActiveDirectoryProvider.ParseConfig(System.String)">
+            <summary>
+            Parses the plugin configuration string.
+            </summary>
+            <param name="config">The config.</param>
+            <returns>A Config object representig the configuration string.</returns>
+        </member>
+    </members>
+</doc>

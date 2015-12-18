@@ -1,0 +1,15 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\SqlServerProviders.XML
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\SqlServerProviders.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\SqlServerProviders.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\Lucene.Net.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.PluginFramework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.AclEngine.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.PluginFramework.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\bin\Debug\ScrewTurn.Wiki.PluginFramework.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\obj\Debug\SqlServerProviders.csprojResolveAssemblyReference.cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\obj\Debug\ScrewTurn.Wiki.Plugins.SqlServer.Properties.Resources.resources
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\obj\Debug\SqlServerProviders.csproj.GenerateResource.Cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\obj\Debug\SqlServerProviders.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SqlServerProviders\obj\Debug\SqlServerProviders.pdb

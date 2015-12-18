@@ -1,0 +1,862 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FSProviders</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider">
+            <summary>
+            Implements a Local Files Storage Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.ReadOnly">
+            <summary>
+            Gets a value specifying whether the provider is read-only, i.e. it can only provide data and not store it.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.CheckPath(System.String,System.String)">
+            <summary>
+            Checks the path.
+            </summary>
+            <param name="path">The path to be checked.</param>
+            <param name="begin">The expected beginning of the path.</param>
+            <exception cref="T:System.InvalidOperationException">If <paramref name="path"/> does not begin with <paramref name="begin"/> or contains "\.." or "..\".</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.BuildFullPath(System.String)">
+            <summary>
+            Builds a full path from a provider-specific partial path.
+            </summary>
+            <param name="partialPath">The partial path.</param>
+            <returns>The full path.</returns>
+            <remarks>For example: if <b>partialPath</b> is "/my/directory", the method returns 
+            "C:\Inetpub\wwwroot\Wiki\public\Upload\my\directory", assuming the Wiki resides in "C:\Inetpub\wwwroot\Wiki".</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.BuildFullPathForAttachments(System.String)">
+            <summary>
+            Builds a full path from a provider-specific partial path.
+            </summary>
+            <param name="partialPath">The partial path.</param>
+            <returns>The full path.</returns>
+            <remarks>For example: if <b>partialPath</b> is "/my/directory", the method returns 
+            "C:\Inetpub\wwwroot\Wiki\public\Attachments\my\directory", assuming the Wiki resides in "C:\Inetpub\wwwroot\Wiki".</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.ListFiles(System.String)">
+            <summary>
+            Lists the Files in the specified Directory.
+            </summary>
+            <param name="directory">The full directory name, for example "/my/directory". Null, empty or "/" for the root directory.</param>
+            <returns>The list of Files in the directory.</returns>
+            <exception cref="T:System.ArgumentException">If <paramref name="directory"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.ListDirectories(System.String)">
+            <summary>
+            Lists the Directories in the specified directory.
+            </summary>
+            <param name="directory">The full directory name, for example "/my/directory". Null, empty or "/" for the root directory.</param>
+            <returns>The list of Directories in the Directory.</returns>
+            <exception cref="T:System.ArgumentException">If <paramref name="directory"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.StreamCopy(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Copies data from a Stream to another.
+            </summary>
+            <param name="source">The Source stream.</param>
+            <param name="destination">The destination Stream.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.StoreFile(System.String,System.IO.Stream,System.Boolean)">
+            <summary>
+            Stores a file.
+            </summary>
+            <param name="fullName">The full name of the file.</param>
+            <param name="sourceStream">A Stream object used as <b>source</b> of a byte stream, 
+            i.e. the method reads from the Stream and stores the content properly.</param>
+            <param name="overwrite"><c>true</c> to overwrite an existing file.</param>
+            <returns><c>true</c> if the File is stored, <c>false</c> otherwise.</returns>
+            <remarks>If <b>overwrite</b> is <c>false</c> and File already exists, the method returns <c>false</c>.</remarks>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> or <paramref name="sourceStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or <paramref name="sourceStream"/> does not support reading.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.RetrieveFile(System.String,System.IO.Stream)">
+            <summary>
+            Retrieves a File.
+            </summary>
+            <param name="fullName">The full name of the File.</param>
+            <param name="destinationStream">A Stream object used as <b>destination</b> of a byte stream,
+            i.e. the method writes to the Stream the file content.</param>
+            <returns><c>true</c> if the file is retrieved, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> or <paramref name="destinationStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or <paramref name="destinationStream"/> does not support writing, or if <paramref name="fullName"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.GetFileDetails(System.String)">
+            <summary>
+            Gets the details of a file.
+            </summary>
+            <param name="fullName">The full name of the file.</param>
+            <returns>The details, or <c>null</c> if the file does not exist.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.DeleteFile(System.String)">
+            <summary>
+            Deletes a File.
+            </summary>
+            <param name="fullName">The full name of the File.</param>
+            <returns><c>true</c> if the File is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or it does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.RenameFile(System.String,System.String)">
+            <summary>
+            Renames or moves a File.
+            </summary>
+            <param name="oldFullName">The old full name of the File.</param>
+            <param name="newFullName">The new full name of the File.</param>
+            <returns><c>true</c> if the File is renamed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldFullName"/> or <paramref name="newFullName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldFullName"/> or <paramref name="newFullName"/> are empty, or if the old file does not exist, or if the new file already exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.CreateDirectory(System.String,System.String)">
+            <summary>
+            Creates a new Directory.
+            </summary>
+            <param name="path">The path to create the new Directory in.</param>
+            <param name="name">The name of the new Directory.</param>
+            <returns><c>true</c> if the Directory is created, <c>false</c> otherwise.</returns>
+            <remarks>If <b>path</b> is "/my/directory" and <b>name</b> is "newdir", a new directory named "/my/directory/newdir" is created.</remarks>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="path"/> or <paramref name="name"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty or if the directory does not exist, or if the new directory already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.DeleteDirectory(System.String)">
+            <summary>
+            Deletes a Directory and <b>all of its content</b>.
+            </summary>
+            <param name="fullPath">The full path of the Directory.</param>
+            <returns><c>true</c> if the Directory is delete, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullPath"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullPath"/> is empty or if it equals '/' or it does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.RenameDirectory(System.String,System.String)">
+            <summary>
+            Renames or moves a Directory.
+            </summary>
+            <param name="oldFullPath">The old full path of the Directory.</param>
+            <param name="newFullPath">The new full path of the Directory.</param>
+            <returns><c>true</c> if the Directory is renamed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldFullPath"/> or <paramref name="newFullPath"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldFullPath"/> or <paramref name="newFullPath"/> are empty or equal to '/', 
+            or if the old directory does not exist or the new directory already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.GetPageAttachmentDirectory(System.String)">
+            <summary>
+            Gets the name of the Directory containing the Attachments of a Page.
+            </summary>
+            <param name="pageFullName">The page full name.</param>
+            <returns>The name of the Directory (not the full path) that contains the Attachments of the specified Page.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.GetPagesWithAttachments">
+            <summary>
+            The the names of the pages with attachments.
+            </summary>
+            <returns>The names of the pages with attachments.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.ListPageAttachments(System.String)">
+            <summary>
+            Returns the names of the Attachments of a Page.
+            </summary>
+            <param name="pageFullName">The full name of the page that owns the Attachments.</param>
+            <returns>The names, or an empty list.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.StorePageAttachment(System.String,System.String,System.IO.Stream,System.Boolean)">
+            <summary>
+            Stores a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="name">The name of the Attachment, for example "myfile.jpg".</param>
+            <param name="sourceStream">A Stream object used as <b>source</b> of a byte stream,
+            i.e. the method reads from the Stream and stores the content properly.</param>
+            <param name="overwrite"><c>true</c> to overwrite an existing Attachment.</param>
+            <returns><c>true</c> if the Attachment is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="name"/> or <paramref name="sourceStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/>, <paramref name="name"/> are empty or if <paramref name="sourceStream"/> does not support reading.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.RetrievePageAttachment(System.String,System.String,System.IO.Stream)">
+            <summary>
+            Retrieves a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="name">The name of the Attachment, for example "myfile.jpg".</param>
+            <param name="destinationStream">A Stream object used as <b>destination</b> of a byte stream,
+            i.e. the method writes to the Stream the file content.</param>
+            <returns><c>true</c> if the Attachment is retrieved, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="name"/> or <paramref name="destinationStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="name"/> are empty or if <paramref name="destinationStream"/> does not support writing,
+            or if the page does not have attachments or if the attachment does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.GetPageAttachmentDetails(System.String,System.String)">
+            <summary>
+            Gets the details of a page attachment.
+            </summary>
+            <param name="pageFullName">The full name of the page that owns the attachment.</param>
+            <param name="attachmentName">The name of the attachment, for example "myfile.jpg".</param>
+            <returns>The details of the attachment, or <c>null</c> if the attachment does not exist.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.DeletePageAttachment(System.String,System.String)">
+            <summary>
+            Deletes a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="attachmentName">The name of the Attachment, for example "myfile.jpg".</param>
+            <returns><c>true</c> if the Attachment is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are empty or if the page or attachment do not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.RenamePageAttachment(System.String,System.String,System.String)">
+            <summary>
+            Renames a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="oldName">The old name of the Attachment.</param>
+            <param name="newName">The new name of the Attachment.</param>
+            <returns><c>true</c> if the Attachment is renamed, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="oldName"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/>, <paramref name="oldName"/> or <paramref name="newName"/> are empty,
+            or if the page or old attachment do not exist, or the new attachment name already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FilesStorageProvider.NotifyPageRenaming(System.String,System.String)">
+            <summary>
+            Notifies the Provider that a Page has been renamed.
+            </summary>
+            <param name="oldPageFullName">The old page full name.</param>
+            <param name="newPageFullName">The new page full name.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldPageFullName"/> or <paramref name="newPageFullName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldPageFullName"/> or <paramref name="newPageFullName"/> are empty or if the new page full name is already in use.</exception>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider">
+            <summary>
+            Implements a file system based indexDirectory provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.GetDirectory">
+            <summary>
+            Gets the directory object to be used by the Search engine.
+            </summary>
+            <returns>The directory object.</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.FSIndexDirectoryProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder">
+            <summary>
+            Implements a command builder for SQL CE.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ObjectNamePrefix">
+            <summary>
+            Gets the table and column name prefix.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ObjectNameSuffix">
+            <summary>
+            Gets the table and column name suffix.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ParameterNamePrefix">
+            <summary>
+            Gets the parameter name prefix.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ParameterNameSuffix">
+            <summary>
+            Gets the parameter name suffix.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ParameterPlaceholder">
+            <summary>
+            Gets the parameter name placeholder.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.UseNamedParameters">
+            <summary>
+            Gets a value indicating whether to use named parameters. If <c>false</c>,
+            parameter placeholders will be equal to <see cref="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.ParameterPlaceholder"/>.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.BatchQuerySeparator">
+            <summary>
+            Gets the string to use in order to separate queries in a batch.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.GetConnection(System.String)">
+            <summary>
+            Gets a new database connection, open.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <returns>The connection.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.GetCommand(System.String,System.String,System.Collections.Generic.List{ScrewTurn.Wiki.Plugins.SqlCommon.Parameter})">
+            <summary>
+            Gets a properly built database command, with the underlying connection already open.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <param name="preparedQuery">The prepared query.</param>
+            <param name="parameters">The parameters, if any.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.GetCommand(System.Data.Common.DbConnection,System.String,System.Collections.Generic.List{ScrewTurn.Wiki.Plugins.SqlCommon.Parameter})">
+            <summary>
+            Gets a properly built database command, re-using an open connection.
+            </summary>
+            <param name="connection">The open connection to use.</param>
+            <param name="preparedQuery">The prepared query.</param>
+            <param name="parameters">The parameters, if any.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCECommandBuilder.GetCommand(System.Data.Common.DbTransaction,System.String,System.Collections.Generic.List{ScrewTurn.Wiki.Plugins.SqlCommon.Parameter})">
+            <summary>
+            Gets a properly built database command, re-using an open connection and a begun transaction.
+            </summary>
+            <param name="transaction">The transaction.</param>
+            <param name="preparedQuery">The prepared query.</param>
+            <param name="parameters">The parameters, if any.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider">
+            <summary>
+            Implements a SQL Server-based settings storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.ListPluginAssemblies">
+            <summary>
+            Lists the stored plugin assemblies.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.StorePluginAssembly(System.String,System.Byte[])">
+            <summary>
+            Stores a plugin's assembly, overwriting existing ones if present.
+            </summary>
+            <param name="filename">The file name of the assembly, such as "Assembly.dll".</param>
+            <param name="assembly">The assembly content.</param>
+            <returns><c>true</c> if the assembly is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <b>filename</b> or <b>assembly</b> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <b>filename</b> or <b>assembly</b> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.RetrievePluginAssembly(System.String)">
+            <summary>
+            Retrieves a plugin's assembly.
+            </summary>
+            <param name="filename">The file name of the assembly.</param>
+            <returns>The assembly content, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <b>filename</b> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <b>filename</b> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.DeletePluginAssembly(System.String)">
+            <summary>
+            Removes a plugin's assembly.
+            </summary>
+            <param name="filename">The file name of the assembly to remove, such as "Assembly.dll".</param>
+            <returns><c>true</c> if the assembly is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <b>filename</b> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <b>filename</b> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.GetCommand(System.String)">
+            <summary>
+            Gets a new command with an open connection.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.GetCommandBuilder">
+            <summary>
+            Gets a new command builder object.
+            </summary>
+            <returns>The command builder.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.ValidateConnectionString(System.String)">
+            <summary>
+            Validates a connection string.
+            </summary>
+            <param name="connString">The connection string to validate.</param>
+            <remarks>If the connection string is invalid, the method throws <see cref="T:InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.SchemaExists">
+            <summary>
+            Detects whether the database schema exists.
+            </summary>
+            <returns><c>true</c> if the schema exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.SchemaNeedsUpdate">
+            <summary>
+            Detects whether the database schema needs to be updated.
+            </summary>
+            <returns><c>true</c> if an update is needed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.CreateStandardSchema">
+            <summary>
+            Creates the standard database schema.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.CreateOrUpdateDatabaseIfNecessary">
+            <summary>
+            Creates or updates the database schema if necessary.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.DefaultUsersStorageProvider">
+            <summary>
+            Gets the default users storage provider, when no value is stored in the database.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.DefaultPagesStorageProvider">
+            <summary>
+            Gets the default pages storage provider, when no value is stored in the database.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEGlobalSettingsStorageProvider.DefaultFilesStorageProvider">
+            <summary>
+            Gets the default files storage provider, when no value is stored in the database.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider">
+            <summary>
+            Implements a SQL Server-based users storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.GetCommand(System.String)">
+            <summary>
+            Gets a new command with an open connection.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.GetCommandBuilder">
+            <summary>
+            Gets a new command builder object.
+            </summary>
+            <returns>The command builder.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.ValidateConnectionString(System.String)">
+            <summary>
+            Validates a connection string.
+            </summary>
+            <param name="connString">The connection string to validate.</param>
+            <remarks>If the connection string is invalid, the method throws <see cref="T:InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.SchemaExists">
+            <summary>
+            Detects whether the database schema exists.
+            </summary>
+            <returns><c>true</c> if the schema exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.SchemaNeedsUpdate">
+            <summary>
+            Detects whether the database schema needs to be updated.
+            </summary>
+            <returns><c>true</c> if an update is needed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.CreateStandardSchema">
+            <summary>
+            Creates the standard database schema.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.CreateOrUpdateDatabaseIfNecessary">
+            <summary>
+            Creates or updates the database schema if necessary.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEPagesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider">
+            <summary>
+            Implements a SQL Server-based settings storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.GetCommand(System.String)">
+            <summary>
+            Gets a new command with an open connection.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.GetCommandBuilder">
+            <summary>
+            Gets a new command builder object.
+            </summary>
+            <returns>The command builder.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.ValidateConnectionString(System.String)">
+            <summary>
+            Validates a connection string.
+            </summary>
+            <param name="connString">The connection string to validate.</param>
+            <remarks>If the connection string is invalid, the method throws <see cref="T:InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.SchemaExists">
+            <summary>
+            Detects whether the database schema exists.
+            </summary>
+            <returns><c>true</c> if the schema exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.SchemaNeedsUpdate">
+            <summary>
+            Detects whether the database schema needs to be updated.
+            </summary>
+            <returns><c>true</c> if an update is needed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.CreateStandardSchema">
+            <summary>
+            Creates the standard database schema.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.CreateOrUpdateDatabaseIfNecessary">
+            <summary>
+            Creates or updates the database schema if necessary.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCESettingsStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider">
+            <summary>
+            Implements a SQL CE-based users storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.GetCommand(System.String)">
+            <summary>
+            Gets a new command with an open connection.
+            </summary>
+            <param name="connString">The connection string.</param>
+            <returns>The command.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.GetCommandBuilder">
+            <summary>
+            Gets a new command builder object.
+            </summary>
+            <returns>The command builder.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.ValidateConnectionString(System.String)">
+            <summary>
+            Validates a connection string.
+            </summary>
+            <param name="connString">The connection string to validate.</param>
+            <remarks>If the connection string is invalid, the method throws <see cref="T:InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.SchemaExists">
+            <summary>
+            Detects whether the database schema exists.
+            </summary>
+            <returns><c>true</c> if the schema exists, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.SchemaNeedsUpdate">
+            <summary>
+            Detects whether the database schema needs to be updated.
+            </summary>
+            <returns><c>true</c> if an update is needed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.CreateStandardSchema">
+            <summary>
+            Creates the standard database schema.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.CreateOrUpdateDatabaseIfNecessary">
+            <summary>
+            Creates or updates the database schema if necessary.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.SqlCEUsersStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider">
+            <summary>
+            Implements the methods to view, add or delete Themes
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.ProviderName">
+            <summary>
+            The name of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.GetPath(System.String,System.String)">
+            <summary>
+            Gets the path.
+            </summary>
+            <returns>The path generated from host and ThemeDirectory</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.ListThemes">
+            <summary>
+            Retrives the lists of avaiable themes.
+            </summary>
+            <returns>A list of theme names.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.ListThemeFiles(System.String,System.String)">
+            <summary>
+            Retrieves all files present in the selected theme.
+            </summary>
+            <param name="themeName">The name of the selected theme.</param>
+            <param name="searchPattern">The search string to match against the name of files.</param>
+            <returns>The list of files matching the searchPattern.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.DeleteTheme(System.String)">
+            <summary>
+            Deletes the theme with the given name.
+            </summary>
+            <param name="themeName">The name of the theme to be deleted.</param>
+            <returns><c>true</c> if the theme is removed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.StoreTheme(System.String,System.Byte[])">
+            <summary>
+            Stores the theme.
+            </summary>
+            <param name="themeName">The name of the theme.</param>
+            <param name="zipFile">The zipFile conteining the theme.</param>
+            <returns><c>true</c> if the theme is saved, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.GetThemePath(System.String)">
+            <summary>
+            Gets the relative path of the theme with the given name.
+            </summary>
+            <param name="themeName">The name of the theme.</param>
+            <returns>The relative path of the theme.</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.ReadOnly">
+            <summary>
+            Gets a value specifying whether the provider is read-only, i.e. it can only provide data and not store it.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Theme Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.FSProviders.ThemesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="T:ScrewTurn.Wiki.LocalProvidersTools">
+            <summary>
+            Implements tools for local providers.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.LocalProvidersTools.CheckWritePermissions(System.String)">
+            <summary>
+            Checks a directory for write permissions.
+            </summary>
+            <param name="dir">The directory.</param>
+            <returns><c>true</c> if the directory has write permissions, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.ProviderBase">
+            <summary>
+            Implements a base class for local file-based data providers.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.ProviderBase.GetDataDirectory(ScrewTurn.Wiki.PluginFramework.IHostV40)">
+            <summary>
+            Gets the data directory.
+            </summary>
+            <param name="host">The host object.</param>
+            <returns>The data directory.</returns>
+        </member>
+    </members>
+</doc>

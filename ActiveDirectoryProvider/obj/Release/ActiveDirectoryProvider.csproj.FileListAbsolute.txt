@@ -1,0 +1,13 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ActiveDirectoryProvider.XML
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ActiveDirectoryProvider.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ActiveDirectoryProvider.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.PluginFramework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\Lucene.Net.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.PluginFramework.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.PluginFramework.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\bin\Release\ScrewTurn.Wiki.AclEngine.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\obj\Release\ActiveDirectoryProvider.csprojResolveAssemblyReference.cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\obj\Release\ActiveDirectoryProvider.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\ActiveDirectoryProvider\obj\Release\ActiveDirectoryProvider.pdb

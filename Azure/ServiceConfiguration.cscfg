@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="2" osVersion="*" schemaVersion="2015-04.2.6">
+  <Role name="WebApplication">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=###ACCOUNTNAME###;AccountKey=###KEY###" />
+      <!--
+				Define multiple wikis giving their name and host(s)
+				(multiple wikis are accepted separated by a pipe, multiple hosts are accepted separated by a semicolon).
+				The "root" wiki, which is MANDATORY, also acts as fallback for all unknown hosts.
+				Example:
+					root=|wiki1=wiki1.acme.com;alias.acme.com|wiki2=wiki2.acme.com
+				Explanation:
+					root catches all unspecified hosts
+					wiki1 runs on the wiki1.acme.com and alias.acme.com hosts
+					wiki2 runs on the wiki2.acme.com host
+			-->
+      <Setting name="Wikis" value="root=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="yingww" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEFavMC6075+USE+R0QEOUCUwDQYJKoZIhvcNAQEBBQAEggEAQDTSckyNzPJ8+vMrZ5T5adl8GaUdY3inBKYVs7t7+lIxJMWUKf32NCl8ZP+KxsBx6upKc5oaVOdUI4O8UJj7xC0PsNAkUvw0p+0tqKh7s3x4yI/lGXGikWBAySLEo3qzn4N2sGV2y+m19h4TV7c8Xq5QmUDHx6Wmmm6Zdau+2XQs/QGXVyh9eCy7VE0a0jV13gKLVEjUPeM3KUf3FZlbwWJmkDpcuFc/TMAxEc8NYi/T1PgCRA3XvITBoySMcNkc4Kef9bf/5thAQirOjKx7R1vHJoHcwKQvRF1wbAHtEIU/KbP7IXH20STtE1qDP081Z7N7k8DqilaWw10q/axgWzAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECLhaY3gnKOCfgBAqzmCwvBKXvM5otKZa489B" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-12-18T23:59:59.0000000+08:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="982ACAEF52D1359F08BC9614B131816B82D4EC90" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

@@ -1,0 +1,4 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SearchEngine\bin\Release\SearchEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SearchEngine\bin\Release\SearchEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SearchEngine\obj\Release\SearchEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\SearchEngine\obj\Release\SearchEngine.pdb

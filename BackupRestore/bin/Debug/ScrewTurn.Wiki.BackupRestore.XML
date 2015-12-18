@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScrewTurn.Wiki.BackupRestore</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.BackupRestore.BackupRestore">
+            <summary>
+            Implements a Backup and Restore procedure for settings storage providers.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupAll(System.Int32,System.String,System.String,System.String[],ScrewTurn.Wiki.PluginFramework.ISettingsStorageProviderV40,ScrewTurn.Wiki.PluginFramework.IPagesStorageProviderV40[],ScrewTurn.Wiki.PluginFramework.IUsersStorageProviderV40[],ScrewTurn.Wiki.PluginFramework.IFilesStorageProviderV40[])">
+            <summary>
+            Backups all the providers (excluded global settings storage provider).
+            </summary>
+            <param name="numberOfRevisions">The number of revisions to backup for each page.</param>
+            <param name="backupZipFileName">The name of the zip file where to store the backup file.</param>
+            <param name="wiki">The wiki.</param>
+            <param name="plugins">The available plugins.</param>
+            <param name="settingsStorageProvider">The settings storage provider.</param>
+            <param name="pagesStorageProviders">The pages storage providers.</param>
+            <param name="usersStorageProviders">The users storage providers.</param>
+            <param name="filesStorageProviders">The files storage providers.</param>
+            <returns><c>true</c> if the backup has been succesfull.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestoreAll(System.String,ScrewTurn.Wiki.PluginFramework.IGlobalSettingsStorageProviderV40,ScrewTurn.Wiki.PluginFramework.ISettingsStorageProviderV40,ScrewTurn.Wiki.PluginFramework.IPagesStorageProviderV40,ScrewTurn.Wiki.PluginFramework.IUsersStorageProviderV40,ScrewTurn.Wiki.PluginFramework.IFilesStorageProviderV40,System.Func{System.String,System.Boolean})">
+            <summary>
+            Restores all.
+            </summary>
+            <param name="backupFileAddress">The backup file address.</param>
+            <param name="globalSettingsStorageProvider">The global settings storage provider.</param>
+            <param name="settingsStorageProvider">The settings storage provider.</param>
+            <param name="pagesStorageProvider">The pages storage provider.</param>
+            <param name="usersStorageProvider">The users storage provider.</param>
+            <param name="filesStorageProvider">The files storage provider.</param>
+            <param name="isSettingGlobal">A function to check if a setting is global or not.</param>
+            <returns><c>true</c> if the restore has been succesfull.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupGlobalSettingsStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IGlobalSettingsStorageProviderV40)">
+            <summary>
+            Backups the specified global settings storage provider.
+            </summary>
+            <param name="zipFileName">The zip file name where to store the backup.</param>
+            <param name="globalSettingsStorageProvider">The global settings storage provider.</param>
+            <returns><c>true</c> if the backup has been succesfull.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestoreGlobalSettingsStorageProvider(System.Byte[],ScrewTurn.Wiki.PluginFramework.IGlobalSettingsStorageProviderV40)">
+            <summary>
+            Restores the global settings from a zip backup file.
+            </summary>
+            <param name="backupFile">The global settings backup file.</param>
+            <param name="globalSettingsStorageProvider">The destination global settings storage provider.</param>
+            <returns><c>true</c> if the restore is succesfull, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupSettingsStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.ISettingsStorageProviderV40,System.String[],System.String[])">
+            <summary>
+            Backups the specified settings provider.
+            </summary>
+            <param name="zipFileName">The zip file name where to store the backup.</param>
+            <param name="settingsStorageProvider">The source settings provider.</param>
+            <param name="knownNamespaces">The currently known page namespaces.</param>
+            <param name="knownPlugins">The currently known plugins.</param>	
+            <returns><c>true</c> if the backup file has been succesfully created.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestoreSettingsStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IGlobalSettingsStorageProviderV40,ScrewTurn.Wiki.PluginFramework.ISettingsStorageProviderV40,System.Func{System.String,System.Boolean})">
+            <summary>
+            Restores the settings from a zip file.
+            </summary>
+            <param name="backupFile">The zip backup file.</param>
+            <param name="globalSettingsStorageProvider">The destination global settings storage provider.</param>
+            <param name="settingsStorageProvider">The destination settings storage provider.</param>
+            <param name="isSettingGlobal">A function to check if the settings is global or not.</param>
+            <returns><c>true</c> if the restore is succesful <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupPagesStorageProvider(System.Int32,System.String,ScrewTurn.Wiki.PluginFramework.IPagesStorageProviderV40)">
+            <summary>
+            Backups the pages storage provider.
+            </summary>
+            <param name="numberOfRevisions">The number of revisions to backup for each page.</param>
+            <param name="zipFileName">The zip file name where to store the backup.</param>
+            <param name="pagesStorageProvider">The pages storage provider.</param>
+            <returns><c>true</c> if the backup file has been succesfully created.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestorePagesStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IPagesStorageProviderV40)">
+            <summary>
+            Restores pages from a zip file.
+            </summary>
+            <param name="backupFile">The zip backup file.</param>
+            <param name="pagesStorageProvider">The destination pages storage provider.</param>
+            <returns><c>true</c> if the restore is succesful <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupUsersStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IUsersStorageProviderV40)">
+            <summary>
+            Backups the users storage provider.
+            </summary>
+            <param name="zipFileName">The zip file name where to store the backup.</param>
+            <param name="usersStorageProvider">The users storage provider.</param>
+            <returns><c>true</c> if the backup file has been succesfully created.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestoreUsersStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IUsersStorageProviderV40)">
+            <summary>
+            Restores users from a zip file.
+            </summary>
+            <param name="backupFile">The zip backup file.</param>
+            <param name="usersStorageProvider">The destination users storage provider.</param>
+            <returns><c>true</c> if the restore is succesful <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupFilesStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IFilesStorageProviderV40)">
+            <summary>
+            Backups the files storage provider.
+            </summary>
+            <param name="zipFileName">The zip file name where to store the backup.</param>
+            <param name="filesStorageProvider">The files storage provider.</param>
+            <returns><c>true</c> if the backup file has been succesfully created.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.RestoreFilesStorageProvider(System.String,ScrewTurn.Wiki.PluginFramework.IFilesStorageProviderV40)">
+            <summary>
+            Restores files from a zip file.
+            </summary>
+            <param name="backupFileName">The zip backup file.</param>
+            <param name="filesStorageProvider">The destination files storage provider.</param>
+            <returns><c>true</c> if the restore is succesful <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.BackupRestore.BackupRestore.BackupThemesStorageProvider(ScrewTurn.Wiki.PluginFramework.IThemesStorageProviderV40)">
+            <summary>
+            Backups the themes storage provider.
+            </summary>
+            <param name="themesStorageProvider">The themes storage provider.</param>
+            <returns>The zip backup file.</returns>
+        </member>
+    </members>
+</doc>

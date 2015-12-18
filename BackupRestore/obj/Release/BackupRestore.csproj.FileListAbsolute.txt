@@ -1,0 +1,14 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.BackupRestore.XML
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.BackupRestore.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.BackupRestore.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\Ionic.Zip.Reduced.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.PluginFramework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\Lucene.Net.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.AclEngine.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.PluginFramework.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\bin\Release\ScrewTurn.Wiki.PluginFramework.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\obj\Release\BackupRestore.csprojResolveAssemblyReference.cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\obj\Release\ScrewTurn.Wiki.BackupRestore.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore\obj\Release\ScrewTurn.Wiki.BackupRestore.pdb

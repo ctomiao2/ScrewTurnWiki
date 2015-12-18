@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MultilanguageContentPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin">
+            <summary>
+            Implements a Formatter Provider that allows to write multi-language content in Wiki Pages.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.PerformPhase1">
+            <summary>
+            Specifies whether or not to execute Phase 1.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.PerformPhase2">
+            <summary>
+            Specifies whether or not to execute Phase 2.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.PerformPhase3">
+            <summary>
+            Specifies whether or not to execute Phase 3.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.Format(System.String,ScrewTurn.Wiki.PluginFramework.ContextInformation,ScrewTurn.Wiki.PluginFramework.FormattingPhase)">
+            <summary>
+            Performs a Formatting phase.
+            </summary>
+            <param name="raw">The raw content to Format.</param>
+            <param name="context">The Context information.</param>
+            <param name="phase">The Phase.</param>
+            <returns>The Formatted content.</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <remarks>If the configuration string is not valid, the methoud should throw a <see cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <remarks>If the configuration string is not valid, the methoud should throw a <see cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.ExecutionPriority">
+            <summary>
+            Gets the execution priority of the provider (0 lowest, 100 highest).
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.PrepareTitle(System.String,ScrewTurn.Wiki.PluginFramework.ContextInformation)">
+            <summary>
+            Prepares the title of an item for display (always during phase 3).
+            </summary>
+            <param name="title">The input title.</param>
+            <param name="context">The context information.</param>
+            <returns>The prepared title (no markup allowed).</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.MultilanguageContentPlugin.HandleRequest(System.Web.HttpContext,System.Text.RegularExpressions.Match)">
+            <summary>
+            Method called when the plugin must handle a HTTP request.
+            </summary>
+            <param name="context">The HTTP context.</param>
+            <param name="urlMatch">The URL match.</param>
+            <returns><c>true</c> if the request was handled, <c>false</c> otherwise.</returns>
+            <remarks>This method is called only when a request matches the 
+            parameters configured by calling <see cref="M:ScrewTurn.Wiki.PluginFramework.IHostV40.RegisterRequestHandler(ScrewTurn.Wiki.PluginFramework.IProviderV40,System.String,System.String[])"/> during <see cref="M:ScrewTurn.Wiki.PluginFramework.IProviderV40.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)"/>. 
+            If the plugin <b>did not</b> call <see cref="M:ScrewTurn.Wiki.PluginFramework.IHostV40.RegisterRequestHandler(ScrewTurn.Wiki.PluginFramework.IProviderV40,System.String,System.String[])"/>, this method is never called.</remarks>
+        </member>
+    </members>
+</doc>

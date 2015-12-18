@@ -1,0 +1,17 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.BackupRestore.Tests.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.BackupRestore.Tests.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\nunit.framework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.BackupRestore.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.PluginFramework.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\Ionic.Zip.Reduced.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\Lucene.Net.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.AclEngine.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.BackupRestore.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.BackupRestore.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.PluginFramework.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\bin\Debug\ScrewTurn.Wiki.PluginFramework.xml
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\obj\Debug\BackupRestore-Tests.csprojResolveAssemblyReference.cache
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\obj\Debug\ScrewTurn.Wiki.BackupRestore.Tests.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\BackupRestore-Tests\obj\Debug\ScrewTurn.Wiki.BackupRestore.Tests.pdb

@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnfuddleTicketsPlugin</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets">
+            <summary>
+            Implements a formatter that display tickets from Unfuddle.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <remarks>If the configuration string is not valid, the methoud should throw a <see cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException"/>.</remarks>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <b>host</b> or <b>config</b> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <b>config</b> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.Format(System.String,ScrewTurn.Wiki.PluginFramework.ContextInformation,ScrewTurn.Wiki.PluginFramework.FormattingPhase)">
+            <summary>
+            Performs a Formatting phase.
+            </summary>
+            <param name="raw">The raw content to Format.</param>
+            <param name="context">The Context information.</param>
+            <param name="phase">The Phase.</param>
+            <returns>The Formatted content.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.PrepareTitle(System.String,ScrewTurn.Wiki.PluginFramework.ContextInformation)">
+            <summary>
+            Prepares the title of an item for display (always during phase 3).
+            </summary>
+            <param name="title">The input title.</param>
+            <param name="context">The context information.</param>
+            <returns>The prepared title (no markup allowed).</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.PerformPhase1">
+            <summary>
+            Specifies whether or not to execute Phase 1.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.PerformPhase2">
+            <summary>
+            Specifies whether or not to execute Phase 2.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.PerformPhase3">
+            <summary>
+            Specifies whether or not to execute Phase 3.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.ExecutionPriority">
+            <summary>
+            Gets the execution priority of the provider (0 lowest, 100 highest).
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.FindAndRemoveFirstOccurrence(System.Text.StringBuilder)">
+            <summary>
+            Finds and removes the first occurrence of the custom tag.
+            </summary>
+            <param name="buffer">The buffer.</param>
+            <returns>The index->content data.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.LoadUnfuddleTicketsFromWeb">
+            <summary>
+            Builds an xml document from API calls to Unfuddle.com then runs them through an Xslt to format them.
+            </summary>
+            <returns>An html string that contains the tables to display the ticket information, or null</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.BuildXmlFromApiCalls">
+            <summary>
+            Builds 3 Xml Documents, the first two are lookups for Milestone, and People information, the second is the
+            ticket information.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.GetXml(System.String,System.String,System.String)">
+            <summary>
+            Produces an API call, then returns the results as an Xml Document
+            </summary>
+            <param name="Url">The Url to the specific API call</param>
+            <param name="Username">An unfuddle account username</param>
+            <param name="Password">The password to above unfuddle account</param>
+            <returns></returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.LogWarning(System.String)">
+            <summary>
+            Logs a warning.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.PluginPack.UnfuddleTickets.HandleRequest(System.Web.HttpContext,System.Text.RegularExpressions.Match)">
+            <summary>
+            Method called when the plugin must handle a HTTP request.
+            </summary>
+            <param name="context">The HTTP context.</param>
+            <param name="urlMatch">The URL match.</param>
+            <returns><c>true</c> if the request was handled, <c>false</c> otherwise.</returns>
+            <remarks>This method is called only when a request matches the 
+            parameters configured by calling <see cref="M:ScrewTurn.Wiki.PluginFramework.IHostV40.RegisterRequestHandler(ScrewTurn.Wiki.PluginFramework.IProviderV40,System.String,System.String[])"/> during <see cref="M:ScrewTurn.Wiki.PluginFramework.IProviderV40.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)"/>. 
+            If the plugin <b>did not</b> call <see cref="M:ScrewTurn.Wiki.PluginFramework.IHostV40.RegisterRequestHandler(ScrewTurn.Wiki.PluginFramework.IProviderV40,System.String,System.String[])"/>, this method is never called.</remarks>
+        </member>
+    </members>
+</doc>

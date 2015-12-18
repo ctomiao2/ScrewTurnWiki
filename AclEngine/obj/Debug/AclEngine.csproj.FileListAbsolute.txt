@@ -1,0 +1,5 @@
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine\bin\Debug\ScrewTurn.Wiki.AclEngine.XML
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine\bin\Debug\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine\bin\Debug\ScrewTurn.Wiki.AclEngine.pdb
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine\obj\Debug\ScrewTurn.Wiki.AclEngine.dll
+C:\MySoft\MyProject\screwturn-screwturn-wiki-4-062edc4d21ac\AclEngine\obj\Debug\ScrewTurn.Wiki.AclEngine.pdb

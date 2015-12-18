@@ -1,0 +1,1965 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AzureStorageProviders</name>
+    </assembly>
+    <members>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider">
+            <summary>
+            Implements a Files Storage Provider based on Azure Storage.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.BlobExists(System.String,System.String)">
+            <summary>
+            Check if a blob with the given full name (ignoring case) exists.
+            </summary>
+            <param name="containerName">The blob container where to search.</param>
+            <param name="blobName">Full name of the blob.</param>
+            <returns>The name of the blob with case as saved in blob storage.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.ListFiles(System.String)">
+            <summary>
+            Lists the Files in the specified Directory.
+            </summary>
+            <param name="directory">The full directory name, for example "/my/directory". Null, empty or "/" for the root directory.</param>
+            <returns>The list of Files in the directory.</returns>
+            <exception cref="T:System.ArgumentException">If <paramref name="directory"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.ListDirectories(System.String)">
+            <summary>
+            Lists the Directories in the specified directory.
+            </summary>
+            <param name="directory">The full directory name, for example "/my/directory". Null, empty or "/" for the root directory.</param>
+            <returns>The list of Directories in the Directory.</returns>
+            <exception cref="T:System.ArgumentException">If <paramref name="directory"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.StoreFile(System.String,System.IO.Stream,System.Boolean)">
+            <summary>
+            Stores a file.
+            </summary>
+            <param name="fullName">The full name of the file.</param>
+            <param name="sourceStream">A Stream object used as <b>source</b> of a byte stream,
+            i.e. the method reads from the Stream and stores the content properly.</param>
+            <param name="overwrite"><c>true</c> to overwrite an existing file.</param>
+            <returns><c>true</c> if the File is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> or <paramref name="sourceStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or <paramref name="sourceStream"/> does not support reading.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.RetrieveFile(System.String,System.IO.Stream)">
+            <summary>
+            Retrieves a File.
+            </summary>
+            <param name="fullName">The full name of the File.</param>
+            <param name="destinationStream">A Stream object used as <b>destination</b> of a byte stream,
+            i.e. the method writes to the Stream the file content.</param>
+            <returns><c>true</c> if the file is retrieved, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> or <paramref name="destinationStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or <paramref name="destinationStream"/> does not support writing, or if <paramref name="fullName"/> does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.GetFileDetails(System.String)">
+            <summary>
+            Gets the details of a file.
+            </summary>
+            <param name="fullName">The full name of the file.</param>
+            <returns>The details, or <c>null</c> if the file does not exist.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.DeleteFile(System.String)">
+            <summary>
+            Deletes a File.
+            </summary>
+            <param name="fullName">The full name of the File.</param>
+            <returns><c>true</c> if the File is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty or it does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.RenameFile(System.String,System.String)">
+            <summary>
+            Renames or moves a File.
+            </summary>
+            <param name="oldFullName">The old full name of the File.</param>
+            <param name="newFullName">The new full name of the File.</param>
+            <returns><c>true</c> if the File is renamed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldFullName"/> or <paramref name="newFullName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldFullName"/> or <paramref name="newFullName"/> are empty, or if the old file does not exist, or if the new file already exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.CreateDirectory(System.String,System.String)">
+            <summary>
+            Creates a new Directory.
+            </summary>
+            <param name="path">The path to create the new Directory in.</param>
+            <param name="name">The name of the new Directory.</param>
+            <returns><c>true</c> if the Directory is created, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="path"/> or <paramref name="name"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty or if the directory does not exist, or if the new directory already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.DeleteDirectory(System.String)">
+            <summary>
+            Deletes a Directory and <b>all of its content</b>.
+            </summary>
+            <param name="fullPath">The full path of the Directory.</param>
+            <returns><c>true</c> if the Directory is delete, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullPath"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullPath"/> is empty or if it equals '/' or it does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.RenameDirectory(System.String,System.String)">
+            <summary>
+            Renames or moves a Directory.
+            </summary>
+            <param name="oldFullPath">The old full path of the Directory.</param>
+            <param name="newFullPath">The new full path of the Directory.</param>
+            <returns><c>true</c> if the Directory is renamed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldFullPath"/> or <paramref name="newFullPath"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldFullPath"/> or <paramref name="newFullPath"/> are empty or equal to '/',
+            or if the old directory does not exist or the new directory already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.GetPagesWithAttachments">
+            <summary>
+            The the names of the pages with attachments.
+            </summary>
+            <returns>The names of the pages with attachments.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.ListPageAttachments(System.String)">
+            <summary>
+            Returns the names of the Attachments of a Page.
+            </summary>
+            <param name="pageFullName">The full name of the page that owns the Attachments.</param>
+            <returns>The names, or an empty list.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.StorePageAttachment(System.String,System.String,System.IO.Stream,System.Boolean)">
+            <summary>
+            Stores a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="name">The name of the Attachment, for example "myfile.jpg".</param>
+            <param name="sourceStream">A Stream object used as <b>source</b> of a byte stream,
+            i.e. the method reads from the Stream and stores the content properly.</param>
+            <param name="overwrite"><c>true</c> to overwrite an existing Attachment.</param>
+            <returns><c>true</c> if the Attachment is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="name"/> or <paramref name="sourceStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/>, <paramref name="name"/> are empty or if <paramref name="sourceStream"/> does not support reading.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.RetrievePageAttachment(System.String,System.String,System.IO.Stream)">
+            <summary>
+            Retrieves a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="name">The name of the Attachment, for example "myfile.jpg".</param>
+            <param name="destinationStream">A Stream object used as <b>destination</b> of a byte stream,
+            i.e. the method writes to the Stream the file content.</param>
+            <returns><c>true</c> if the Attachment is retrieved, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="name"/> or <paramref name="destinationStream"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="name"/> are empty or if <paramref name="destinationStream"/> does not support writing,
+            or if the page does not have attachments or if the attachment does not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.GetPageAttachmentDetails(System.String,System.String)">
+            <summary>
+            Gets the details of a page attachment.
+            </summary>
+            <param name="pageFullName">The full name of the page that owns the attachment.</param>
+            <param name="attachmentName">The name of the attachment, for example "myfile.jpg".</param>
+            <returns>The details of the attachment, or <c>null</c> if the attachment does not exist.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.DeletePageAttachment(System.String,System.String)">
+            <summary>
+            Deletes a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="attachmentName">The name of the Attachment, for example "myfile.jpg".</param>
+            <returns><c>true</c> if the Attachment is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> or <paramref name="attachmentName"/> are empty or if the page or attachment do not exist.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.RenamePageAttachment(System.String,System.String,System.String)">
+            <summary>
+            Renames a Page Attachment.
+            </summary>
+            <param name="pageFullName">The Page Info that owns the Attachment.</param>
+            <param name="oldName">The old name of the Attachment.</param>
+            <param name="newName">The new name of the Attachment.</param>
+            <returns><c>true</c> if the Attachment is renamed, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="oldName"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/>, <paramref name="oldName"/> or <paramref name="newName"/> are empty,
+            or if the page or old attachment do not exist, or the new attachment name already exists.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.NotifyPageRenaming(System.String,System.String)">
+            <summary>
+            Notifies the Provider that a Page has been renamed.
+            </summary>
+            <param name="oldPageFullName">The old page full name.</param>
+            <param name="newPageFullName">The new page full name.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldPageFullName"/> or <paramref name="newPageFullName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldPageFullName"/> or <paramref name="newPageFullName"/> are empty or if the new page full name is already in use.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.ReadOnly">
+            <summary>
+            Gets a value specifying whether the provider is read-only, i.e. it can only provide data and not store it.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureFilesStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider">
+            <summary>
+            Implements an Azure Table Storage global settings storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.GetSetting(System.String)">
+            <summary>
+            Retrieves the value of a Setting.
+            </summary>
+            <param name="name">The name of the Setting.</param>
+            <returns>The value of the Setting, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.GetAllSettings">
+            <summary>
+            Gets the all the setting values.
+            </summary>
+            <returns>All the settings.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.SetSetting(System.String,System.String)">
+            <summary>
+            Stores the value of a Setting.
+            </summary>
+            <param name="name">The name of the Setting.</param>
+            <param name="value">The value of the Setting. Value cannot contain CR and LF characters, which will be removed.</param>
+            <returns>True if the Setting is stored, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.GetAllWikis">
+            <summary>
+            Gets alls the wikis.
+            </summary>
+            <returns>A collection of wiki identifiers.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.ExtractWikiName(System.String)">
+            <summary>
+            Extracts the name of the wiki from the given host.
+            </summary>
+            <param name="host">The host.</param>
+            <returns>The name of the wiki.</returns>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.WikiNotFoundException">If no wiki is found corresponding to the given host.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.ListPluginAssemblies">
+            <summary>
+            Lists the stored plugin assemblies.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.StorePluginAssembly(System.String,System.Byte[])">
+            <summary>
+            Stores a plugin's assembly, overwriting existing ones if present.
+            </summary>
+            <param name="filename">The file name of the assembly, such as "Assembly.dll".</param>
+            <param name="assembly">The assembly content.</param>
+            <returns><c>true</c> if the assembly is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="filename"/> or <paramref name="assembly"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="filename"/> or <paramref name="assembly"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.RetrievePluginAssembly(System.String)">
+            <summary>
+            Retrieves a plugin's assembly.
+            </summary>
+            <param name="filename">The file name of the assembly.</param>
+            <returns>The assembly content, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="filename"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="filename"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.DeletePluginAssembly(System.String)">
+            <summary>
+            Removes a plugin's assembly.
+            </summary>
+            <param name="filename">The file name of the assembly to remove, such as "Assembly.dll".</param>
+            <returns><c>true</c> if the assembly is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="filename"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="filename"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.EntryTypeToString(ScrewTurn.Wiki.PluginFramework.EntryType)">
+            <summary>
+            Converts an <see cref="T:EntryType" /> to a string.
+            </summary>
+            <param name="type">The entry type.</param>
+            <returns>The corresponding string.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.EntryTypeParse(System.String)">
+            <summary>
+            Converts an entry type string to an <see cref="T:EntryType" />.
+            </summary>
+            <param name="value">The string.</param>
+            <returns>The <see cref="T:EntryType" />.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.LogEntry(System.String,ScrewTurn.Wiki.PluginFramework.EntryType,System.String,System.String)">
+            <summary>
+            Records a message to the System Log.
+            </summary>
+            <param name="message">The Log Message.</param>
+            <param name="entryType">The Type of the Entry.</param>
+            <param name="user">The User.</param>
+            <param name="wiki">The wiki, <c>null</c> if is an application level log.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="message"/> or <paramref name="user"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="message"/> or <paramref name="user"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.CutLog(System.Int32)">
+            <summary>
+            Reduces the size of the Log to the specified size (or less).
+            </summary>
+            <param name="size">The size to shrink the log to (in bytes).</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.GetLogEntries">
+            <summary>
+            Gets all the Log Entries, sorted by date/time (oldest to newest).
+            </summary>
+            <returns>The Log Entries.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.ClearLog">
+            <summary>
+            Clear the Log.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.LogSize">
+            <summary>
+            Gets the current size of the Log, in KB.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.GlobalSettingsTable">
+            <summary>
+            The global settings table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.LogsTable">
+            <summary>
+            The Logs table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.AssembliesContainer">
+            <summary>
+            The assembly blob container name.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureGlobalSettingsStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager">
+            <summary>
+            Implements an Azure Table Storage ACL manager.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.#ctor(ScrewTurn.Wiki.Plugins.AzureStorage.StoreEntry,ScrewTurn.Wiki.Plugins.AzureStorage.DeleteEntries,ScrewTurn.Wiki.Plugins.AzureStorage.RenameResource,ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveAllEntries,ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveEntriesForResource,ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveEntriesForSubject)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SqlAclManager" /> class.
+            </summary>
+            <param name="storeEntry">The <see cref="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.StoreEntry(System.String,System.String,System.String,ScrewTurn.Wiki.AclEngine.Value)"/> delegate.</param>
+            <param name="deleteEntries">The <see cref="T:ScrewTurn.Wiki.Plugins.AzureStorage.DeleteEntries"/> delegate.</param>
+            <param name="renameResource">The <see cref="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RenameResource(System.String,System.String)"/> delegate.</param>
+            <param name="retrieveAllEntries">The <see cref="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveAllEntries"/> delegate.</param>
+            <param name="retrieveEntriesForResource">The <see cref="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveEntriesForResource(System.String)"/> delegate.</param>
+            <param name="retrieveEntriesForSubject">The <see cref="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveEntriesForSubject(System.String)"/> delegate.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.StoreEntry(System.String,System.String,System.String,ScrewTurn.Wiki.AclEngine.Value)">
+            <summary>
+            Stores a new ACL entry.
+            </summary>
+            <param name="resource">The controlled resource.</param>
+            <param name="action">The action on the controlled resource.</param>
+            <param name="subject">The subject whose access to the resource/action is controlled.</param>
+            <param name="value">The value of the entry.</param>
+            <returns><c>true</c> if the entry is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="resource"/>, <paramref name="action"/> or <paramref name="subject"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="resource"/>, <paramref name="action"/> or <paramref name="subject"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.DeleteEntry(System.String,System.String,System.String)">
+            <summary>
+            Deletes an ACL entry.
+            </summary>
+            <param name="resource">The controlled resource.</param>
+            <param name="action">The action on the controlled resource.</param>
+            <param name="subject">The subject whose access to the resource/action is controlled.</param>
+            <returns><c>true</c> if the entry is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="resource"/>, <paramref name="action"/> or <paramref name="subject"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="resource"/>, <paramref name="action"/> or <paramref name="subject"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.DeleteEntriesForResource(System.String)">
+            <summary>
+            Deletes all the ACL entries for a resource.
+            </summary>
+            <param name="resource">The controlled resource.</param>
+            <returns><c>true</c> if the entries are deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="resource"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="resource"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.DeleteEntriesForSubject(System.String)">
+            <summary>
+            Deletes all the ACL entries for a subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns><c>true</c> if the entries are deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="subject"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="subject"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RenameResource(System.String,System.String)">
+            <summary>
+            Renames a resource.
+            </summary>
+            <param name="resource">The resource.</param>
+            <param name="newName">The new name of the resource.</param>
+            <returns><c>true</c> if the resource is renamed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="resource"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="resource"/> or <paramref name="newName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveAllEntries">
+            <summary>
+            Retrieves all the ACL entries for a resource.
+            </summary>
+            <returns>The entries.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveEntriesForResource(System.String)">
+            <summary>
+            Retrieves all the ACL entries for a resource.
+            </summary>
+            <param name="resource">The resource.</param>
+            <returns>The entries.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="resource"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="resource"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.RetrieveEntriesForSubject(System.String)">
+            <summary>
+            Retrieves all the ACL entries for a subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>The entries.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="subject"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="subject"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.InitializeData(ScrewTurn.Wiki.AclEngine.AclEntry[])">
+            <summary>
+            Initializes the manager data.
+            </summary>
+            <param name="entries">The ACL entries.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="entries"/> is <c>null</c>.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.TotalEntries">
+            <summary>
+            Gets the total number of ACL entries.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.OnAclChanged(ScrewTurn.Wiki.AclEngine.AclEntry[],ScrewTurn.Wiki.AclEngine.Change)">
+            <summary>
+            Handles the invokation of <see cref="E:ScrewTurn.Wiki.AclEngine.IAclManager.AclChanged" /> event.
+            </summary>
+            <param name="entries">The changed entries.</param>
+            <param name="change">The change.</param>
+        </member>
+        <member name="E:ScrewTurn.Wiki.Plugins.AzureStorage.AzureTableStorageAclManager.AclChanged">
+            <summary>
+            Event fired when an ACL entry is stored or deleted.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.StoreEntry">
+            <summary>
+            Defines a delegate for a method that stores a ACL entry in the storage.
+            </summary>
+            <param name="entry">The entry to store.</param>
+            <returns><c>true</c> if the entry was stored, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.DeleteEntry">
+            <summary>
+            Defines a delegate for a method that deletes a ACL entry in the storage.
+            </summary>
+            <param name="entry">The entry to delete.</param>
+            <remarks><c>true</c> if the entry was deleted, <c>false</c> otherwise.</remarks>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.DeleteEntries">
+            <summary>
+            Defines a delegate for a method that deletes ACL entries in the storage.
+            </summary>
+            <param name="entries">The entries to delete.</param>
+            <remarks><c>true</c> if one or more enties were deleted, <c>false</c> otherwise.</remarks>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.RenameResource">
+            <summary>
+            Defines a delegate for a method that renames a resource.
+            </summary>
+            <param name="resource">The resource to rename.</param>
+            <param name="newName">The new name of the resource.</param>
+            <returns><c>true</c> if the resource was renamed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveAllEntries">
+            <summary>
+            Defines a delegate for a method that retrieves all entries.
+            </summary>
+            <returns>The entries.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveEntriesForResource">
+            <summary>
+            Defines a delegate for a method that retrieves all entries for a resource.
+            </summary>
+            <param name="resource">The resource.</param>
+            <returns>The entries of the resource.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.RetrieveEntriesForSubject">
+            <summary>
+            Defines a delegate for a method that retrieves all entries for a subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>The entries of the subject.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider">
+            <summary>
+            Implements a Pages Storage Provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetNamespace(System.String)">
+            <summary>
+            Gets a namespace.
+            </summary>
+            <param name="name">The name of the namespace.</param>
+            <returns>The <see cref="T:NamespaceInfo"/>, or <c>null</c> if no namespace is found.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetNamespaces">
+            <summary>
+            Gets all the sub-namespaces.
+            </summary>
+            <returns>The sub-namespaces, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddNamespace(System.String)">
+            <summary>
+            Adds a new namespace.
+            </summary>
+            <param name="name">The name of the namespace.</param>
+            <returns>The correct <see cref="T:NamespaceInfo"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RenameNamespace(ScrewTurn.Wiki.PluginFramework.NamespaceInfo,System.String)">
+            <summary>
+            Renames a namespace.
+            </summary>
+            <param name="nspace">The namespace to rename.</param>
+            <param name="newName">The new name of the namespace.</param>
+            <returns>The correct <see cref="T:NamespaceInfo"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="nspace"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="newName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.SetNamespaceDefaultPage(ScrewTurn.Wiki.PluginFramework.NamespaceInfo,System.String)">
+            <summary>
+            Sets the default page of a namespace.
+            </summary>
+            <param name="nspace">The namespace of which to set the default page.</param>
+            <param name="pageFullName">The full name of the page to use as default page, or <c>null</c>.</param>
+            <returns>The correct <see cref="T:NamespaceInfo"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="nspace"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveNamespace(ScrewTurn.Wiki.PluginFramework.NamespaceInfo)">
+            <summary>
+            Removes a namespace.
+            </summary>
+            <param name="nspace">The namespace to remove.</param>
+            <returns><c>true</c> if the namespace is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="nspace"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.MovePage(System.String,ScrewTurn.Wiki.PluginFramework.NamespaceInfo,System.Boolean)">
+            <summary>
+            Moves a page from its namespace into another.
+            </summary>
+            <param name="pageFullName">The full name of the page to move.</param>
+            <param name="destination">The destination namespace (<c>null</c> for the root).</param>
+            <param name="copyCategories">A value indicating whether to copy the page categories in the destination
+            namespace, if not already available.</param>
+            <returns>The correct instance of <see cref="T:PageContent"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetCategory(System.String)">
+            <summary>
+            Gets a category.
+            </summary>
+            <param name="fullName">The full name of the category.</param>
+            <returns>The <see cref="T:CategoryInfo"/>, or <c>null</c> if no category is found.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetCategories(ScrewTurn.Wiki.PluginFramework.NamespaceInfo)">
+            <summary>
+            Gets all the Categories in a namespace.
+            </summary>
+            <param name="nspace">The namespace.</param>
+            <returns>All the Categories in the namespace, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetCategoriesForPage(System.String)">
+            <summary>
+            Gets all the categories of a page.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <returns>The categories, sorted by name.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddCategory(System.String,System.String)">
+            <summary>
+            Adds a Category.
+            </summary>
+            <param name="nspace">The target namespace (<c>null</c> for the root).</param>
+            <param name="name">The Category name.</param>
+            <returns>The correct CategoryInfo object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RenameCategory(ScrewTurn.Wiki.PluginFramework.CategoryInfo,System.String)">
+            <summary>
+            Renames a Category.
+            </summary>
+            <param name="category">The Category to rename.</param>
+            <param name="newName">The new Name.</param>
+            <returns>The correct CategoryInfo object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="category"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="newName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveCategory(ScrewTurn.Wiki.PluginFramework.CategoryInfo)">
+            <summary>
+            Removes a Category.
+            </summary>
+            <param name="category">The Category to remove.</param>
+            <returns>
+            True if the Category has been removed successfully.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="category"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.MergeCategories(ScrewTurn.Wiki.PluginFramework.CategoryInfo,ScrewTurn.Wiki.PluginFramework.CategoryInfo)">
+            <summary>
+            Merges two Categories.
+            </summary>
+            <param name="source">The source Category.</param>
+            <param name="destination">The destination Category.</param>
+            <returns>The correct <see cref="T:CategoryInfo"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="source"/> or <paramref name="destination"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetPage(System.String)">
+            <summary>
+            Gets a page.
+            </summary>
+            <param name="fullName">The full name of the page.</param>
+            <returns>The <see cref="T:PageContent"/>, or <c>null</c> if no page is found.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetPages(ScrewTurn.Wiki.PluginFramework.NamespaceInfo)">
+            <summary>
+            Gets all the Pages in a namespace.
+            </summary>
+            <param name="nspace">The namespace (<c>null</c> for the root).</param>
+            <returns>All the Pages in the namespace, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetUncategorizedPages(ScrewTurn.Wiki.PluginFramework.NamespaceInfo)">
+            <summary>
+            Gets all the pages in a namespace that are bound to zero categories.
+            </summary>
+            <param name="nspace">The namespace (<c>null</c> for the root).</param>
+            <returns>The pages, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetDraft(System.String)">
+            <summary>
+            Gets the content of a draft of a Page.
+            </summary>
+            <param name="fullName">The full name of the page.</param>
+            <returns>The draft, or <c>null</c> if no draft exists.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.DeleteDraft(System.String)">
+            <summary>
+            Deletes a draft of a Page.
+            </summary>
+            <param name="fullName">The full name of the page.</param>
+            <returns><c>true</c> if the draft is deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetBackups(System.String)">
+            <summary>
+            Gets the Backup/Revision numbers of a Page.
+            </summary>
+            <param name="fullName">The full name of the page to get the Backups of.</param>
+            <returns>The Backup/Revision numbers.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetBackupContent(System.String,System.Int32)">
+            <summary>
+            Gets the Content of a Backup of a Page.
+            </summary>
+            <param name="fullName">The full name of the page to get the backup of.</param>
+            <param name="revision">The Backup/Revision number.</param>
+            <returns>The Page Backup.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> is empty.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="revision"/> is less than zero.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.SetBackupContent(ScrewTurn.Wiki.PluginFramework.PageContent,System.Int32)">
+            <summary>
+            Forces to overwrite or create a Backup.
+            </summary>
+            <param name="content">The Backup content.</param>
+            <param name="revision">The revision.</param>
+            <returns>True if the Backup has been created successfully.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="content"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="revision"/> is less than zero.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RenamePage(System.String,System.String)">
+            <summary>
+            Renames a Page.
+            </summary>
+            <param name="fullName">The full name of the page to rename.</param>
+            <param name="newName">The new Name.</param>
+            <returns>The correct <see cref="T:PageContent"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="fullName"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="fullName"/> or <paramref name="newName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.SetPageContent(System.String,System.String,System.DateTime,System.String,System.String,System.DateTime,System.String,System.String,System.String[],System.String,ScrewTurn.Wiki.PluginFramework.SaveMode)">
+            <summary>
+            Adds a new page content.
+            </summary>
+            <param name="nspace">The target namespace (<c>null</c> for the root).</param>
+            <param name="pageName">The Page Name.</param>
+            <param name="creationDateTime">The creation Date/Time.</param>
+            <param name="title">The Title of the Page.</param>
+            <param name="username">The Username.</param>
+            <param name="dateTime">The Date/Time.</param>
+            <param name="comment">The Comment of the editor, about this revision.</param>
+            <param name="content">The Page Content.</param>
+            <param name="keywords">The keywords, usually used for SEO.</param>
+            <param name="description">The description, usually used for SEO.</param>
+            <param name="saveMode">The save mode for this modification.</param>
+            <returns>The correct PageInfo object or null.</returns>
+            <remarks>This method should <b>not</b> create the content of the Page.</remarks>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageName"/>, <paramref name="title"/> <paramref name="username"/> or <paramref name="content"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageName"/>, <paramref name="title"/> or <paramref name="username"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RollbackPage(System.String,System.Int32)">
+            <summary>
+            Performs the rollback of a Page to a specified revision.
+            </summary>
+            <param name="pageFullName">The full name of the page to rollback.</param>
+            <param name="revision">The Revision to rollback the Page to.</param>
+            <returns><c>true</c> if the rollback succeeded, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="revision"/> is less than zero.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.DeleteBackups(System.String,System.Int32)">
+            <summary>
+            Deletes the Backups of a Page, up to a specified revision.
+            </summary>
+            <param name="pageFullName">The full name of the page to delete the backups of.</param>
+            <param name="revision">The newest revision to delete (newer revision are kept) or -1 to delete all the Backups.</param>
+            <returns><c>true</c> if the deletion succeeded, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="revision"/> is less than -1.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemovePage(System.String)">
+            <summary>
+            Removes a Page.
+            </summary>
+            <param name="pageFullName">The full name of the page to remove.</param>
+            <returns>True if the Page is removed successfully.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RebindPage(System.String,System.String[])">
+            <summary>
+            Binds a Page with one or more Categories.
+            </summary>
+            <param name="pageFullName">The full name of the page to bind.</param>
+            <param name="categories">The Categories to bind the Page with.</param>
+            <returns>True if the binding succeeded.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="categories"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetMessages(System.String)">
+            <summary>
+            Gets the Page Messages.
+            </summary>
+            <param name="pageFullName">The page full name.</param>
+            <returns>The list of the <b>first-level</b> Messages, containing the replies properly nested, sorted by date/time.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetMessageCount(System.String)">
+            <summary>
+            Gets the total number of Messages in a Page Discussion.
+            </summary>
+            <param name="pageFullName">The page full name.</param>
+            <returns>The number of messages.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.BulkStoreMessages(System.String,ScrewTurn.Wiki.PluginFramework.Message[])">
+            <summary>
+            Removes all messages for a page and stores the new messages.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <param name="messages">The new messages to store.</param>
+            <returns><c>true</c> if the messages are stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> or <paramref name="messages"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddMessage(System.String,System.String,System.String,System.DateTime,System.String,System.Int32)">
+            <summary>
+            Adds a new Message to a Page.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <param name="username">The Username.</param>
+            <param name="subject">The Subject.</param>
+            <param name="dateTime">The Date/Time.</param>
+            <param name="body">The Body.</param>
+            <param name="parent">The Parent Message ID, or -1.</param>
+            <returns>The id of the message. Returns -1 in case of errors.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="username"/>, <paramref name="subject"/> or <paramref name="body"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/> or <paramref name="subject"/> or <paramref name="pageFullName"/> are empty.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="parent"/> is less than -1.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveMessage(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Removes a Message.
+            </summary>
+            <param name="pageFullName">The full name of the page.</param>
+            <param name="id">The ID of the Message to remove.</param>
+            <param name="removeReplies">A value specifying whether or not to remove the replies.</param>
+            <returns>True if the Message is removed successfully.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pageFullName"/> is empty.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="id"/> is less than zero.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ModifyMessage(System.String,System.Int32,System.String,System.String,System.DateTime,System.String)">
+            <summary>
+            Modifies a Message.
+            </summary>
+            <param name="pageFullName">The Page.</param>
+            <param name="id">The ID of the Message to modify.</param>
+            <param name="username">The Username.</param>
+            <param name="subject">The Subject.</param>
+            <param name="dateTime">The Date/Time.</param>
+            <param name="body">The Body.</param>
+            <returns>True if the Message is modified successfully.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="pageFullName"/>, <paramref name="username"/>, <paramref name="subject"/> or <paramref name="body"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">If <paramref name="id"/> is less than zero.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/> or <paramref name="subject"/> or <paramref name="pageFullName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetNavigationPaths(ScrewTurn.Wiki.PluginFramework.NamespaceInfo)">
+            <summary>
+            Gets all the Navigation Paths in a Namespace.
+            </summary>
+            <param name="nspace">The Namespace.</param>
+            <returns>All the Navigation Paths, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddNavigationPath(System.String,System.String,System.String[])">
+            <summary>
+            Adds a new Navigation Path.
+            </summary>
+            <param name="nspace">The target namespace (<c>null</c> for the root).</param>
+            <param name="name">The Name of the Path.</param>
+            <param name="pages">The full name of the pages array.</param>
+            <returns>The correct <see cref="T:NavigationPath"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="pages"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> or <paramref name="pages"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ModifyNavigationPath(ScrewTurn.Wiki.PluginFramework.NavigationPath,System.String[])">
+            <summary>
+            Modifies an existing navigation path.
+            </summary>
+            <param name="path">The navigation path to modify.</param>
+            <param name="pages">The new pages full names array.</param>
+            <returns>The correct <see cref="T:NavigationPath"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="path"/> or <paramref name="pages"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="pages"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveNavigationPath(ScrewTurn.Wiki.PluginFramework.NavigationPath)">
+            <summary>
+            Removes a Navigation Path.
+            </summary>
+            <param name="path">The navigation path to remove.</param>
+            <returns><c>true</c> if the path is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="path"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetSnippets">
+            <summary>
+            Gets all the snippets.
+            </summary>
+            <returns>All the snippets, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddSnippet(System.String,System.String)">
+            <summary>
+            Adds a new snippet.
+            </summary>
+            <param name="name">The name of the snippet.</param>
+            <param name="content">The content of the snippet.</param>
+            <returns>The correct <see cref="T:Snippet"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="content"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ModifySnippet(System.String,System.String)">
+            <summary>
+            Modifies an existing snippet.
+            </summary>
+            <param name="name">The name of the snippet to modify.</param>
+            <param name="content">The content of the snippet.</param>
+            <returns>The correct <see cref="T:Snippet"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="content"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveSnippet(System.String)">
+            <summary>
+            Removes a new Snippet.
+            </summary>
+            <param name="name">The Name of the Snippet to remove.</param>
+            <returns><c>true</c> if the snippet is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.GetContentTemplates">
+            <summary>
+            Gets all the content templates.
+            </summary>
+            <returns>All the content templates, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.AddContentTemplate(System.String,System.String)">
+            <summary>
+            Adds a new content template.
+            </summary>
+            <param name="name">The name of template.</param>
+            <param name="content">The content of the template.</param>
+            <returns>The correct <see cref="T:ContentTemplate"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="content"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ModifyContentTemplate(System.String,System.String)">
+            <summary>
+            Modifies an existing content template.
+            </summary>
+            <param name="name">The name of the template to modify.</param>
+            <param name="content">The content of the template.</param>
+            <returns>The correct <see cref="T:ContentTemplate"/> object.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="content"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.RemoveContentTemplate(System.String)">
+            <summary>
+            Removes a content template.
+            </summary>
+            <param name="name">The name of the template to remove.</param>
+            <returns><c>true</c> if the template is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ReadOnly">
+            <summary>
+            Gets a value specifying whether the provider is read-only, i.e. it can only provide data and not store it.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.NamespacesTable">
+            <summary>
+            The namespaces table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.CategoriesTable">
+            <summary>
+            The categories table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.PagesInfoTable">
+            <summary>
+            The page info table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.PagesContentsTable">
+            <summary>
+            The page content table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.MessagesTable">
+            <summary>
+            The messages table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.NavigationPathsTable">
+            <summary>
+            The navigation paths table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.SnippetsTable">
+            <summary>
+            The snippets table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ContentTemplatesTable">
+            <summary>
+            The contentTemplates table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.IndexWordMappingTable">
+            <summary>
+            The IndexWordMapping table name.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzurePagesStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider">
+            <summary>
+            Implements an Azure Table Storage settings storage provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetSetting(System.String)">
+            <summary>
+            Retrieves the value of a Setting.
+            </summary>
+            <param name="name">The name of the Setting.</param>
+            <returns>The value of the Setting, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SetSetting(System.String,System.String)">
+            <summary>
+            Stores the value of a Setting.
+            </summary>
+            <param name="name">The name of the Setting.</param>
+            <param name="value">The value of the Setting. Value cannot contain CR and LF characters, which will be removed.</param>
+            <returns>True if the Setting is stored, false otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetAllSettings">
+            <summary>
+            Gets the all the setting values.
+            </summary>
+            <returns>All the settings.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.BeginBulkUpdate">
+            <summary>
+            Starts a Bulk update of the Settings so that a bulk of settings can be set before storing them.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.EndBulkUpdate">
+            <summary>
+            Ends a Bulk update of the Settings and stores the settings.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SetPluginStatus(System.String,System.Boolean)">
+            <summary>
+            Sets the status of a plugin.
+            </summary>
+            <param name="typeName">The Type name of the plugin.</param>
+            <param name="enabled">The plugin status.</param>
+            <returns><c>true</c> if the status is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="typeName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="typeName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetPluginStatus(System.String)">
+            <summary>
+            Gets the status of a plugin.
+            </summary>
+            <param name="typeName">The Type name of the plugin.</param>
+            <returns>The status (<c>false</c> for disabled, <c>true</c> for enabled), or <c>true</c> if no status is found.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="typeName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="typeName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SetPluginConfiguration(System.String,System.String)">
+            <summary>
+            Sets the configuration of a plugin.
+            </summary>
+            <param name="typeName">The Type name of the plugin.</param>
+            <param name="config">The configuration.</param>
+            <returns><c>true</c> if the configuration is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="typeName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="typeName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetPluginConfiguration(System.String)">
+            <summary>
+            Gets the configuration of a plugin.
+            </summary>
+            <param name="typeName">The Type name of the plugin.</param>
+            <returns>The plugin configuration, or <b>String.Empty</b>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="typeName"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="typeName"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetMetaDataItem(ScrewTurn.Wiki.PluginFramework.MetaDataItem,System.String)">
+            <summary>
+            Gets a meta-data item's content.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="tag">The tag that specifies the context (usually the namespace).</param>
+            <returns>The content.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SetMetaDataItem(ScrewTurn.Wiki.PluginFramework.MetaDataItem,System.String,System.String)">
+            <summary>
+            Sets a meta-data items' content.
+            </summary>
+            <param name="item">The item.</param>
+            <param name="tag">The tag that specifies the context (usually the namespace).</param>
+            <param name="content">The content.</param>
+            <returns><c>true</c> if the content is set, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetChange(System.String)">
+            <summary>
+            Gets the change from a string.
+            </summary>
+            <param name="change">The string.</param>
+            <returns>The change.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetChangeString(ScrewTurn.Wiki.PluginFramework.Change)">
+            <summary>
+            Gets the change string for a change.
+            </summary>
+            <param name="change">The change.</param>
+            <returns>The change string.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetRecentChanges">
+            <summary>
+            Gets the recent changes of the Wiki.
+            </summary>
+            <returns>The recent Changes, oldest to newest.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.AddRecentChange(System.String,System.String,System.String,System.DateTime,System.String,ScrewTurn.Wiki.PluginFramework.Change,System.String)">
+            <summary>
+            Adds a new change.
+            </summary>
+            <param name="page">The page name.</param>
+            <param name="title">The page title.</param>
+            <param name="messageSubject">The message subject (or <c>null</c>).</param>
+            <param name="dateTime">The date/time.</param>
+            <param name="user">The user.</param>
+            <param name="change">The change.</param>
+            <param name="descr">The description (optional).</param>
+            <returns><c>true</c> if the change is saved, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="page"/>, <paramref name="title"/> or <paramref name="user"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="page"/>, <paramref name="title"/> or <paramref name="user"/> are empty.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.AclManager">
+            <summary>
+            Gets the ACL Manager instance.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.StoreOutgoingLinks(System.String,System.String[])">
+            <summary>
+            Stores the outgoing links of a page, overwriting existing data.
+            </summary>
+            <param name="page">The full name of the page.</param>
+            <param name="outgoingLinks">The full names of the pages that <b>page</b> links to.</param>
+            <returns><c>true</c> if the outgoing links are stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="page"/> or <paramref name="outgoingLinks"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="page"/> or <paramref name="outgoingLinks"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetOutgoingLinks(System.String)">
+            <summary>
+            Gets the outgoing links of a page.
+            </summary>
+            <param name="page">The full name of the page.</param>
+            <returns>The outgoing links.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="page"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="page"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.GetAllOutgoingLinks">
+            <summary>
+            Gets all the outgoing links stored.
+            </summary>
+            <returns>The outgoing links, in a dictionary in the form page-&gt;outgoing_links.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.DeleteOutgoingLinks(System.String)">
+            <summary>
+            Deletes the outgoing links of a page and all the target links that include the page.
+            </summary>
+            <param name="page">The full name of the page.</param>
+            <returns><c>true</c> if the links are deleted, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="page"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="page"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.UpdateOutgoingLinksForRename(System.String,System.String)">
+            <summary>
+            Updates all outgoing links data for a page rename.
+            </summary>
+            <param name="oldName">The old page name.</param>
+            <param name="newName">The new page name.</param>
+            <returns><c>true</c> if the data is updated, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="oldName"/> or <paramref name="newName"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="oldName"/> or <paramref name="newName"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.IsFirstApplicationStart">
+            <summary>
+            Determines whether the wiki was started for the first time.
+            </summary>
+            <returns><c>true</c> if the wiki was started for the first time, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SettingsTable">
+            <summary>
+            The settings table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.MetadataTable">
+            <summary>
+            The metadata table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.RecentChangesTable">
+            <summary>
+            The recent changes table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.OutgoingLinksTable">
+            <summary>
+            The outgoing links table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.AclEntriesTable">
+            <summary>
+            The outgoing links table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.PluginsTable">
+            <summary>
+            The Plugins table name.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.AclEntryValueToString(ScrewTurn.Wiki.AclEngine.Value)">
+            <summary>
+            Converts a <see cref="T:Value" /> to its corresponding string representation.
+            </summary>
+            <param name="value">The <see cref="T:Value" />.</param>
+            <returns>The character representation.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.AclEntryValueFromString(System.String)">
+            <summary>
+            Converts a string representation of a <see cref="T:Value" /> back to the enum value.
+            </summary>
+            <param name="c">The character representation.</param>
+            <returns>The <see cref="T:Value" />.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.RetrieveAllAclEntries">
+            <summary>
+            Retrieves all ACL entries.
+            </summary>
+            <returns>The ACL entries.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.RetrieveAclEntriesForResource(System.String)">
+            <summary>
+            Retrieves all ACL entries for a resource.
+            </summary>
+            <param name="resource">The resource.</param>
+            <returns>The ACL entries for the resource.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.RetrieveAclEntriesForSubject(System.String)">
+            <summary>
+            Retrieves all ACL entries for a subject.
+            </summary>
+            <param name="subject">The subject.</param>
+            <returns>The ACL entries for the subject.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.DeleteEntries(ScrewTurn.Wiki.AclEngine.AclEntry[])">
+            <summary>
+            Deletes some ACL entries.
+            </summary>
+            <param name="entries">The entries to delete.</param>
+            <returns><c>true</c> if one or more entries were deleted, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.StoreEntry(ScrewTurn.Wiki.AclEngine.AclEntry)">
+            <summary>
+            Stores a ACL entry.
+            </summary>
+            <param name="entry">The entry to store.</param>
+            <returns><c>true</c> if the entry was stored, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureSettingsStorageProvider.RenameAclResource(System.String,System.String)">
+            <summary>
+            Renames a ACL resource.
+            </summary>
+            <param name="resource">The resource to rename.</param>
+            <param name="newName">The new name of the resource.</param>
+            <returns><c>true</c> if one or more entries weere updated, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider">
+            <summary>
+            Implements a Users Storage Provider using Azure Table Storage.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.TestAccount(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String)">
+            <summary>
+            Tests a Password for a User account.
+            </summary>
+            <param name="user">The User account.</param>
+            <param name="password">The Password to test.</param>
+            <returns>
+            True if the Password is correct.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="password"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GetUsers">
+            <summary>
+            Gets the complete list of Users.
+            </summary>
+            <returns>All the Users, sorted by username.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.AddUser(System.String,System.String,System.String,System.String,System.Boolean,System.DateTime)">
+            <summary>
+            Adds a new User.
+            </summary>
+            <param name="username">The Username.</param>
+            <param name="displayName">The display name (can be <c>null</c>).</param>
+            <param name="password">The Password.</param>
+            <param name="email">The Email address.</param>
+            <param name="active">A value indicating whether the account is active.</param>
+            <param name="dateTime">The Account creation Date/Time.</param>
+            <returns>The correct <see cref="T:UserInfo"/> object or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/>, <paramref name="password"/> or <paramref name="email"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/>, <paramref name="password"/> or <paramref name="email"/> are empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.ModifyUser(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Modifies a User.
+            </summary>
+            <param name="user">The Username of the user to modify.</param>
+            <param name="newDisplayName">The new display name (can be <c>null</c>).</param>
+            <param name="newPassword">The new Password (<c>null</c> or blank to keep the current password).</param>
+            <param name="newEmail">The new Email address.</param>
+            <param name="newActive">A value indicating whether the account is active.</param>
+            <returns>The correct <see cref="T:UserInfo"/> object or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="newEmail"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="newEmail"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.RemoveUser(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Removes a User.
+            </summary>
+            <param name="user">The User to remove.</param>
+            <returns>True if the User has been removed successfully.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GetUserGroups">
+            <summary>
+            Gets all the user groups.
+            </summary>
+            <returns>All the groups, sorted by name.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.AddUserGroup(System.String,System.String)">
+            <summary>
+            Adds a new user group.
+            </summary>
+            <param name="name">The name of the group.</param>
+            <param name="description">The description of the group.</param>
+            <returns>The correct <see cref="T:UserGroup"/> object or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="name"/> or <paramref name="description"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="name"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.ModifyUserGroup(ScrewTurn.Wiki.PluginFramework.UserGroup,System.String)">
+            <summary>
+            Modifies a user group.
+            </summary>
+            <param name="group">The group to modify.</param>
+            <param name="description">The new description of the group.</param>
+            <returns>The correct <see cref="T:UserGroup"/> object or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="group"/> or <paramref name="description"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.RemoveUserGroup(ScrewTurn.Wiki.PluginFramework.UserGroup)">
+            <summary>
+            Removes a user group.
+            </summary>
+            <param name="group">The group to remove.</param>
+            <returns><c>true</c> if the group is removed, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="group"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.SetUserMembership(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String[])">
+            <summary>
+            Sets the group memberships of a user account.
+            </summary>
+            <param name="user">The user account.</param>
+            <param name="groups">The groups the user account is member of.</param>
+            <returns>The correct <see cref="T:UserGroup"/> object or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="groups"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.TryManualLogin(System.String,System.String)">
+            <summary>
+            Tries to login a user directly through the provider.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="password">The password.</param>
+            <returns>The correct UserInfo object, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/> or <paramref name="password"/> are <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.TryAutoLogin(System.Web.HttpContext)">
+            <summary>
+            Tries to login a user directly through the provider using
+            the current HttpContext and without username/password.
+            </summary>
+            <param name="context">The current HttpContext.</param>
+            <returns>The correct UserInfo object, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="context"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GetUser(System.String)">
+            <summary>
+            Gets a user account.
+            </summary>
+            <param name="username">The username.</param>
+            <returns>The <see cref="T:UserInfo"/>, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="username"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="username"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GetUserByEmail(System.String)">
+            <summary>
+            Gets a user account.
+            </summary>
+            <param name="email">The email address.</param>
+            <returns>The first user found with the specified email address, or <c>null</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="email"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="email"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.NotifyCookieLogin(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Notifies the provider that a user has logged in through the authentication cookie.
+            </summary>
+            <param name="user">The user who has logged in.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.NotifyLogout(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Notifies the provider that a user has logged out.
+            </summary>
+            <param name="user">The user who has logged out.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.StoreUserData(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String,System.String)">
+            <summary>
+            Stores a user data element, overwriting the previous one if present.
+            </summary>
+            <param name="user">The user the data belongs to.</param>
+            <param name="key">The key of the data element (case insensitive).</param>
+            <param name="value">The value of the data element, <c>null</c> for deleting the data.</param>
+            <returns><c>true</c> if the data element is stored, <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="key"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.RetrieveUserData(ScrewTurn.Wiki.PluginFramework.UserInfo,System.String)">
+            <summary>
+            Gets a user data element, if any.
+            </summary>
+            <param name="user">The user the data belongs to.</param>
+            <param name="key">The key of the data element.</param>
+            <returns>The value of the data element, or <c>null</c> if the element is not found.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> or <paramref name="key"/> are <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.RetrieveAllUserData(ScrewTurn.Wiki.PluginFramework.UserInfo)">
+            <summary>
+            Retrieves all the user data elements for a user.
+            </summary>
+            <param name="user">The user.</param>
+            <returns>The user data elements (key->value).</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="user"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GetUsersWithData(System.String)">
+            <summary>
+            Gets all the users that have the specified element in their data.
+            </summary>
+            <param name="key">The key of the data.</param>
+            <returns>The users and the data.</returns>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="key"/> is <c>null</c>.</exception>
+            <exception cref="T:System.ArgumentException">If <paramref name="key"/> is empty.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UserAccountsReadOnly">
+            <summary>
+            Gets a value indicating whether user accounts are read-only.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UserGroupsReadOnly">
+            <summary>
+            Gets a value indicating whether user groups are read-only. If so, the provider
+            should support default user groups as defined in the wiki configuration.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.GroupMembershipReadOnly">
+            <summary>
+            Gets a value indicating whether group membership is read-only (if <see cref="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UserAccountsReadOnly"/>
+            is <c>false</c>, then this property must be <c>false</c>). If this property is <c>true</c>, the provider
+            should return membership data compatible with default user groups.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UsersDataReadOnly">
+            <summary>
+            Gets a value indicating whether users' data is read-only.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UsersTable">
+            <summary>
+            The users table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UserGroupsTable">
+            <summary>
+            The user groups table name.
+            </summary>
+        </member>
+        <member name="F:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.UserDataTable">
+            <summary>
+            The user data table name.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureUsersStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider">
+            <summary>
+            Implements the methods to view, add or delete Themes
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.ListThemes">
+            <summary>
+            Retrives the lists of avaiable themes.
+            </summary>
+            <returns>A list of theme names.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.ListThemeFiles(System.String,System.String)">
+            <summary>
+            Retrieves all files present in the selected theme.
+            </summary>
+            <param name="themeName">The name of the selected theme.</param>
+            <param name="searchPattern">The search string to match against the name of files.</param>
+            <returns>The list of files matching the searchPattern.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.StoreTheme(System.String,System.Byte[])">
+            <summary>
+            Stores the theme.
+            </summary>
+            <param name="themeName">The name of the theme.</param>
+            <param name="zipFile">The zipFile conteining the theme.</param>
+            <returns><c>true</c> if the theme is saved, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.DeleteTheme(System.String)">
+            <summary>
+            Deletes the theme with the given name.
+            </summary>
+            <param name="themeName">The name of the theme to be deleted.</param>
+            <returns><c>true</c> if the theme is removed, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.GetThemePath(System.String)">
+            <summary>
+            Gets the relative path of the theme with the given name.
+            </summary>
+            <param name="themeName">The name of the theme.</param>
+            <returns>The relative path of the theme.</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.ReadOnly">
+            <summary>
+            Gets a value specifying whether the provider is read-only, i.e. it can only provide data and not store it.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureThemesStorageProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.Config">
+            <summary>
+            Configuration utilities.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.Config.GetConnectionString">
+            <summary>
+            Gets the Azure Storage connection string.
+            </summary>
+            <returns>The connection string.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider">
+            <summary>
+            Implements a file system based indexDirectory provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.GetDirectory">
+            <summary>
+            Gets the directory object to be used by the Search engine.
+            </summary>
+            <returns>The directory object.</returns>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.CurrentWiki">
+            <summary>
+            Gets the wiki that has been used to initialize the current instance of the provider.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.Init(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String,System.String)">
+            <summary>
+            Initializes the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <param name="wiki">The wiki.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.SetUp(ScrewTurn.Wiki.PluginFramework.IHostV40,System.String)">
+            <summary>
+            Sets up the Storage Provider.
+            </summary>
+            <param name="host">The Host of the Component.</param>
+            <param name="config">The Configuration data, if any.</param>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="host"/> or <paramref name="config"/> are <c>null</c>.</exception>
+            <exception cref="T:ScrewTurn.Wiki.PluginFramework.InvalidConfigurationException">If <paramref name="config"/> is not valid or is incorrect.</exception>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.Information">
+            <summary>
+            Gets the Information about the Provider.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.ConfigHelpHtml">
+            <summary>
+            Gets a brief summary of the configuration string format, in HTML. Returns <c>null</c> if no configuration is needed.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.AzureIndexDirectoryProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.Hash">
+            <summary>
+            Helps computing Hash codes.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.Hash.ComputeBytes(System.String)">
+            <summary>
+            Computes the Hash code of a string.
+            </summary>
+            <param name="input">The string.</param>
+            <returns>The Hash code.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.Hash.Compute(System.String)">
+            <summary>
+            Computes the Hash code of a string and converts it into a Hex string.
+            </summary>
+            <param name="input">The string.</param>
+            <returns>The Hash code, converted into a Hex string.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.Hash.ComputeSecurityHash(System.String,System.String,System.DateTime,System.String)">
+            <summary>
+            Computes the Hash of a Username, mixing it with other data, in order to avoid illegal Account activations.
+            </summary>
+            <param name="username">The Username.</param>
+            <param name="email">The email.</param>
+            <param name="dateTime">The date/time.</param>
+            <param name="otherData">The other data to mix into the input string.</param>
+            <returns>The secured Hash of the Username.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.MimeTypes">
+            <summary>
+            Contains a list of MIME Types.
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.MimeTypes.Init">
+            <summary>
+            Initializes the list of the MIME Types, with the most common media types.
+            </summary>
+        </member>
+        <member name="P:ScrewTurn.Wiki.Plugins.AzureStorage.MimeTypes.Types">
+            <summary>
+            Gets the list of the MIME Types.
+            </summary>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.QueryHelper`1">
+            <summary>
+            Query helper class.
+            </summary>
+            <typeparam name="T">The type of the data entity.</typeparam>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.QueryHelper`1.#ctor(Microsoft.WindowsAzure.StorageClient.CloudTableQuery{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ScrewTurn.Wiki.Plugins.AzureStorage.QueryHelper`1"/> class.
+            </summary>
+            <param name="query">The query.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.QueryHelper`1.FirstOrDefault(Microsoft.WindowsAzure.StorageClient.CloudTableQuery{`0})">
+            <summary>
+            Executes the query and returns the first element, if any.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>The first element.</returns>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.QueryHelper`1.All(Microsoft.WindowsAzure.StorageClient.CloudTableQuery{`0})">
+            <summary>
+            Executes the query.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>The returned elements.</returns>
+        </member>
+        <member name="T:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.StorageAccount(System.String)">
+            <summary>
+            Get the storage account.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.CreateTable(System.String,System.String)">
+            <summary>
+            Creates a table if it does not exist.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="tableName">The name of the table.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.TruncateTable(System.String,System.String)">
+            <summary>
+            Removes all data from a table.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+            <param name="tableName">The table name.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.GetContext(System.String)">
+            <summary>
+            Gets the context.
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.SaveChangesStandard(Microsoft.WindowsAzure.StorageClient.TableServiceContext)">
+            <summary>
+            Saves the changes.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.DeleteAllBlobs(System.String)">
+            <summary>
+            Deletes all blobs in all containers.
+            Used only in tests tear-down method
+            </summary>
+            <param name="connectionString">The connection string.</param>
+        </member>
+        <member name="M:ScrewTurn.Wiki.Plugins.AzureStorage.TableStorage.GetDefaultRetryPolicy">
+            <summary>
+            Gets the default retry policy.
+            </summary>
+        </member>
+    </members>
+</doc>
